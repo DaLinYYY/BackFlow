@@ -3,7 +3,7 @@
  * @version:  
  * @Date: 2021-11-19 16:23:44
  * @Last Modified by: YangSL
- * @LastEditTime: 2021-11-19 17:41:14
+ * @LastEditTime: 2021-11-21 02:26:33
  * @Description: 
  */
 #ifndef ROTARY_H
@@ -13,7 +13,7 @@
 /* Includes ------------------------------------------------------------------*/
 
 /* Global  functions ---------------------------------------------------------*/
-void rotaryInit(void);
-
+void rotaryInit(OneButton& rButton);
+uint8_t keyProcess(OneButton& rButton);
 
 #endif /* ROTARY_H */
