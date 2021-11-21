@@ -3,7 +3,7 @@
  * @version:  
  * @Date: 2021-11-19 16:29:36
  * @Last Modified by: YangSL
- * @LastEditTime: 2021-11-21 03:19:01
+ * @LastEditTime: 2021-11-21 23:47:32
  * @Description: 
  */
 
@@ -14,11 +14,19 @@
 /* Includes ------------------------------------------------------------------*/
 #include <Arduino.h>
 
+// #include <OneButton.h>
+// #include <Rotary.h>
 #include "../lib/OneButton/src/OneButton.h"
+#include "../lib/U8g2/src/U8g2lib.h"
 
-#include "../lib/Rotary/Rotary.h"
+
+#include "Rotary/Rotary.h"
+#include "Draw/ExternDraw.h"
+#include "Draw/Bitmap.h"
+
 /* Global macro  -------------------------------------------------------------*/
 extern OneButton RButton;
+extern U8G2_SSD1306_128X64_NONAME_F_HW_I2C Disp;
 /* Private functions ---------------------------------------------------------*/
 
 
