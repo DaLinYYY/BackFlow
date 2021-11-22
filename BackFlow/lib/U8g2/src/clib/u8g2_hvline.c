@@ -237,8 +237,7 @@ void u8g2_DrawPixel(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y)
   Assign the draw color for all drawing functions.
   color may be 0 or 1. The actual color is defined by the display.
   With color = 1 the drawing function will set the display memory to 1.
-  For OLEDs this ususally means, that the pixel is enabled and the LED 
-  at the pixel is turned on.
+  For OLEDs this ususally means, that the pixel is enabled and the LED at the pixel is turned on.
   On an LCD it usually means that the LCD segment of the pixel is enabled, 
   which absorbs the light.
   For eInk/ePaper it means black ink.

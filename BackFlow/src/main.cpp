@@ -3,7 +3,7 @@
  * @version:  
  * @Date: 2021-11-19 16:06:32
  * @Last Modified by: YangSL
- * @LastEditTime: 2021-11-21 23:59:00
+ * @LastEditTime: 2021-11-22 23:50:45
  * @Description: 
  */
 
@@ -21,6 +21,24 @@ char ChipMAC_S[19] = {0};
 char CompileTime[20];
 
 /* Private functions ---------------------------------------------------------*/
+void showTask( void * parameter )
+{
+    while(1){
+        // TextEditor("测试中", "ASDFGHJK");
+        // EnterLogo();
+        Serial.println("dsadsds");
+
+        vTaskDelay(500);
+    }
+}
+
+void us_create_task(void)
+{
+    xTaskCreate(showTask, "showTask", 20480,  NULL, 5, NULL);
+    
+}
+
+
 void setup() {
 
     //获取系统信息
@@ -47,14 +65,15 @@ void setup() {
     pinMode(16, OUTPUT); 
     // rotaryInit();
 
+    us_create_task();
     
- 
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  keyProcess(RButton);
-  delay(10);
-  EnterLogo();
+    keyProcess(RButton);
+//   EnterLogo();
+    TextEditor("测试中", "ASDFGHJK");
   
+    vTaskDelay(10);
 }

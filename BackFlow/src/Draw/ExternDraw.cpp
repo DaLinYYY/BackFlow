@@ -13,7 +13,7 @@ void EnterLogo(void)
 
         Disp.drawXBM(x, 0, 128, 64, TranAnimation);
         if (x < 0) Disp.drawBox(128 + x, 0, -x, 64);
-
+  
         Disp.setBitmapMode(0);
         Display();
     }
@@ -426,98 +426,98 @@ void DrawStatusBar(bool color)
  */
 void TextEditor(char* title, char* text)
 {
-    // // Pop_Windows("双击保存 长按退出");
-    // // delay(1000);
-    // char newText[20] = {0};
-    // strcpy(newText, text);
+    // Pop_Windows("双击保存 长按退出");
+    // delay(1000);
+    char newText[20] = {0};
+    strcpy(newText, text);
 
-    // uint8_t charCounter = 0;      //光标指针
-    // char editChar = 'A';
+    uint8_t charCounter = 0;      //光标指针
+    char editChar = 'A';
 
-    // bool exitRenameGUI = false;
-    // bool editFlag = 0, lastEditFlag = 1;       //编辑器状态：0:选择要编辑的字符    1:选择ASCII
+    bool exitRenameGUI = false;
+    bool editFlag = 0, lastEditFlag = 1;       //编辑器状态：0:选择要编辑的字符    1:选择ASCII
 
-    // uint8_t key = 0;              //存储按键状态
+    uint8_t key = 0;              //存储按键状态
 
-    // while (!exitRenameGUI)
-    // {
+    while (!exitRenameGUI)
+    {
 
-    //     //设置编码器
-    //     if (editFlag != lastEditFlag)
-    //     {
-    //         if (editFlag == 0) sys_Counter_Set(0, 19, 1, charCounter);
-    //         else sys_Counter_Set(0, 255, 1, newText[charCounter]);
+        //设置编码器
+        // if (editFlag != lastEditFlag)
+        // {
+        //     if (editFlag == 0) sys_Counter_Set(0, 19, 1, charCounter);
+        //     else sys_Counter_Set(0, 255, 1, newText[charCounter]);
 
-    //         lastEditFlag = editFlag;
-    //     }
+        //     lastEditFlag = editFlag;
+        // }
 
-    //     //获取编码器输入
-    //     switch (editFlag)
-    //     {
-    //         case 0:
-    //             charCounter = sys_Counter_Get();
-    //             break;
-    //         case 1:
-    //             editChar = sys_Counter_Get();
-    //             newText[charCounter] = editChar;
-    //             break;
-    //     }
+        //获取编码器输入
+        switch (editFlag)
+        {
+            case 0:
+                charCounter = rotary_counter_Get();
+                break;
+            case 1:
+                editChar = rotary_counter_Get();
+                newText[charCounter] = editChar;
+                break;
+        }
 
-    //     //////////////////////////////////////////////////////////
-    //     Clear();
+        //////////////////////////////////////////////////////////
+        Clear();
 
-    //     Disp.setDrawColor(1);
-    //     //第一行显示标题
-    //     Disp.drawUTF8(0, 1, title);
-    //     //第二行显示编辑文本
-    //     Disp.drawUTF8(0, 12 + 1, newText);
-
-
-
-    //     //显示当前选中的ASCII
-    //     Disp.setDrawColor(1);
-    //     Disp.setFont(u8g2_font_logisoso26_tf);
-
-    //     Disp.setCursor(0, 34);
-    //     Disp.printf("%c", newText[charCounter]);
-
-    //     Disp.setCursor(32, 34);
-    //     Disp.printf("0X%02X", newText[charCounter]);
-
-    //     Disp.setFont(u8g2_font_wqy12_t_gb2312);
-
-    //     //反色显示光标
-    //     Disp.setDrawColor(2);
-    //     if (editFlag)
-    //     {
-    //         //选择字符时光标闪烁
-    //         if ((millis() / 250) % 2) Disp.drawBox(charCounter * 6, 12, 6, 12);
-    //     } else Disp.drawBox(charCounter * 6, 12, 6, 12);
+        Disp.setDrawColor(1);
+        //第一行显示标题
+        Disp.drawUTF8(0, 1, title);
+        //第二行显示编辑文本
+        Disp.drawUTF8(0, 12 + 1, newText);
 
 
-    //     //字符选择区反色高亮
-    //     Disp.drawBox(0, 32, 32, 32);
 
-    //     Display();
+        //显示当前选中的ASCII
+        Disp.setDrawColor(1);
+        Disp.setFont(u8g2_font_logisoso26_tf);
 
-    //     //////////////////////////////////////////////////////////
+        Disp.setCursor(8, 34);
+        Disp.printf("%c", newText[charCounter]);
 
-    //     //处理按键事件
-    //     key = sys_KeyProcess();
-    //     switch (key)
-    //     {
-    //         //单击切换编辑器状态
-    //         case 1:
-    //             editFlag = !editFlag;
-    //             break;
+        Disp.setCursor(32, 34);
+        Disp.printf("0X%02X", newText[charCounter]);
 
-    //         case 2:
-    //         case 3:
-    //             //保存并退出
-    //             strcpy(text, newText);
-    //             //Pop_Windows("已保存");
-    //             exitRenameGUI = true;
-    //             break;
-    //     }
-    // }
+        Disp.setFont(u8g2_font_wqy12_t_gb2312);
+
+        // //反色显示光标
+        Disp.setDrawColor(2);
+        // if (editFlag)
+        // {
+        //     //选择字符时光标闪烁
+        //     if ((millis() / 250) % 2) Disp.drawBox(charCounter * 6, 12, 6, 12);
+        // } else Disp.drawBox(charCounter * 6, 12, 6, 12);
+
+
+        //字符选择区反色高亮
+        Disp.drawBox(0, 32, 32, 32);
+
+        Display();
+
+        //////////////////////////////////////////////////////////
+
+        //处理按键事件
+        // key = sys_KeyProcess();
+        // switch (key)
+        // {
+        //     //单击切换编辑器状态
+        //     case 1:
+        //         editFlag = !editFlag;
+        //         break;
+
+        //     case 2:
+        //     case 3:
+        //         //保存并退出
+        //         strcpy(text, newText);
+        //         //Pop_Windows("已保存");
+        //         exitRenameGUI = true;
+        //         break;
+        // }
+    }
 }

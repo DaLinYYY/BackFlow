@@ -3,7 +3,7 @@
  * @version:  
  * @Date: 2021-11-19 16:23:38
  * @Last Modified by: YangSL
- * @LastEditTime: 2021-11-21 18:12:21
+ * @LastEditTime: 2021-11-22 22:51:53
  * @Description: 
  */
 /* Includes ------------------------------------------------------------------*/
@@ -163,22 +163,27 @@ portMUX_TYPE mux_1 = portMUX_INITIALIZER_UNLOCKED;//利用其对主代码和中�
  * @param {*}
  * @return {*}
  */
+uint8_t RotaryDirection = false;
 void  rotary_counter_IRQHandler(void)
 {
-    // portENTER_CRITICAL_ISR(&mux);//进入中断程序
+    //若编码器被锁定，则不允许数值操作
+    // if (Counter_LOCK_Flag == true) return;
+
+    //更新编码器方向
+    double step = (RotaryDirection == 0) ? Count_step : -Count_step;
 
     // Serial.println("rotary_counter_IRQHandler");
     uint8_t a = digitalRead(ROTARY_PIN1);
     uint8_t b = digitalRead(ROTARY_PIN2);
 
     Serial.print((int)a);
-    Serial.print((int)b);
+    Serial.println((int)b);
     
 
-    if(RButton.isLongPressed())
-        Serial.println("   长按中···");
-    else 
-        Serial.println("   未长按···");
+    // if(RButton.isLongPressed())
+    //     Serial.println("   长按中···");
+    // else 
+    //     Serial.println("   未长按···");
 
     static byte state1 = LOW;
     state1 = !state1;
@@ -188,13 +193,50 @@ void  rotary_counter_IRQHandler(void)
     state = !state;
     digitalWrite(4, state);
 
+    static volatile uint8_t a0, b0;
+    static volatile uint8_t ab0;
+    if (a != a0)
+    {
+        a0 = a;
+        if (b != b0)
+        {
+            b0 = b;
+            Count = constrain(Count + ((a == b) ? step : -step), Count_min, Count_max);
+            if ((a == b) != ab0)
+            {
+                Count = constrain(Count + ((a == b) ? step : -step), Count_min, Count_max);
+            }
+            ab0 = (a == b);
+        }
+    }
+    //printf("编码器:%lf\n", sys_Counter_Get());
+
+    if (Count != CountLast)
+    {
+        CountLast = Count;
+        CounterChanged = 1;
+    }
 
     // Serial.print(b);
- 
-    
-    // portEXIT_CRITICAL_ISR(&mux);//处理完中断后，记得要退出中断。
 }
 
+
+
+double rotary_counter_Get(void)
+{
+    // if (Count != CountLast) {
+    //     CountLast = Count;
+    //     Serial.print("C: %f \n",Count);
+    // }
+    return Count / ROTARY_TYPE;
+}
+
+uint8_t rotary_counter_Change(void)
+{
+    uint8_t flag = CounterChanged;
+    CounterChanged = 0;
+    return flag;
+}
 
 /**
  * @name  sys_Counter_Set
@@ -258,6 +300,8 @@ void rotaryInit(OneButton& rButton)
 
     //初始化编码器设置(测试默认)
     rotary_set_timer(-1.2, 6.6, 0.1, 3.14);
+
+    
 }
 
 //编码器按键按下 + 软件滤波

@@ -3,7 +3,7 @@
  * @version:  
  * @Date: 2021-11-19 16:29:36
  * @Last Modified by: YangSL
- * @LastEditTime: 2021-11-21 23:47:32
+ * @LastEditTime: 2021-11-22 23:09:20
  * @Description: 
  */
 
@@ -13,7 +13,8 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include <Arduino.h>
-
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 // #include <OneButton.h>
 // #include <Rotary.h>
 #include "../lib/OneButton/src/OneButton.h"
