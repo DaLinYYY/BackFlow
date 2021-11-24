@@ -3,7 +3,7 @@
  * @version:  
  * @Date: 2021-11-19 16:06:32
  * @Last Modified by: YangSL
- * @LastEditTime: 2021-11-22 23:50:45
+ * @LastEditTime: 2021-11-24 23:40:51
  * @Description: 
  */
 
@@ -24,18 +24,44 @@ char CompileTime[20];
 void showTask( void * parameter )
 {
     while(1){
-        // TextEditor("测试中", "ASDFGHJK");
+        TextEditor("测试中", "ASDFGHJK");
         // EnterLogo();
-        Serial.println("dsadsds");
+        // Serial.println("dsadsds");
 
         vTaskDelay(500);
     }
 }
 
+void Task1( void * parameter )
+{
+    while(1){
+        TextEditor("测试中", "ASDFGHJK");
+        // EnterLogo();
+        // Serial.println("dsadsds");
+
+        vTaskDelay(500);
+    }
+}
+
+
 void us_create_task(void)
 {
-    xTaskCreate(showTask, "showTask", 20480,  NULL, 5, NULL);
-    
+
+    xTaskCreatePinnedToCore(showTask,      //任务函数
+                            "showTask",    /* 任务名字 没啥用，就是描述*/
+                            1024,           /*堆栈大小，单位为字节*/
+                            NULL,           /*作为任务输入传递的参数*/
+                            7,              //任务的优先级  Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
+                            NULL, 
+                            0);             //指定运行任务的CPU
+
+    xTaskCreatePinnedToCore(Task1,           //任务入口函数名作为函数指针调用
+                            "Task1",        //任务名
+                            2048,           //任务栈
+                            NULL,           //传给任务函数的参数
+                            2,              //任务优先级
+                            NULL,           //任务回传句柄
+                            tskNO_AFFINITY);//这个任务将不会固定在某个核心上执行
 }
 
 
@@ -73,7 +99,7 @@ void loop() {
   // put your main code here, to run repeatedly:
     keyProcess(RButton);
 //   EnterLogo();
-    TextEditor("测试中", "ASDFGHJK");
+    // TextEditor("测试中", "ASDFGHJK");
   
     vTaskDelay(10);
 }
