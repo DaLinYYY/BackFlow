@@ -3,7 +3,7 @@
  * @version:  
  * @Date: 2021-11-19 16:06:32
  * @Last Modified by: YangSL
- * @LastEditTime: 2021-11-24 23:40:51
+ * @LastEditTime: 2021-11-30 00:32:45
  * @Description: 
  */
 
@@ -15,6 +15,8 @@ OneButton RButton(BUTTON_PIN, true);
 U8G2_SSD1306_128X64_NONAME_F_HW_I2C Disp(U8G2_R0, /* reset=*/ U8X8_PIN_NONE, /* clock=*/ 22, /* data=*/21);
 
 /* Private macro  -------------------------------------------------------------*/
+static portMUX_TYPE my_mutex = portMUX_INITIALIZER_UNLOCKED;
+
 //系统信息
 uint64_t ChipMAC;
 char ChipMAC_S[19] = {0};
@@ -24,9 +26,16 @@ char CompileTime[20];
 void showTask( void * parameter )
 {
     while(1){
-        TextEditor("测试中", "ASDFGHJK");
+        // TextEditor("测试中", "ASDFGHJK");
         // EnterLogo();
         // Serial.println("dsadsds");
+        
+        portENTER_CRITICAL(&my_mutex);//启动任务调度器
+        {
+            // EnterLogo();
+            
+        }
+        portEXIT_CRITICAL(&my_mutex);
 
         vTaskDelay(500);
     }
@@ -34,12 +43,16 @@ void showTask( void * parameter )
 
 void Task1( void * parameter )
 {
+    uint32_t Count = 0;
     while(1){
-        TextEditor("测试中", "ASDFGHJK");
+        
+        // TextEditor("测试中", "ASDFGHJK");
         // EnterLogo();
-        // Serial.println("dsadsds");
+        Serial.print("Count = ");
+        Serial.println(Count);
 
-        vTaskDelay(500);
+        vTaskDelay(5000);
+        Count++;
     }
 }
 
@@ -92,14 +105,14 @@ void setup() {
     // rotaryInit();
 
     us_create_task();
-    
+    EnterLogo();
+    // ShowBootMsg();
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
     keyProcess(RButton);
-//   EnterLogo();
-    // TextEditor("测试中", "ASDFGHJK");
-  
+    
+    
     vTaskDelay(10);
 }

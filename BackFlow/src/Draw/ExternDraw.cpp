@@ -1,5 +1,6 @@
 #include "../BackFlow.h"
 
+
 void EnterLogo(void)
 {
 
@@ -73,47 +74,47 @@ void EnterLogo(void)
 
 }
 
+
 void ShowBootMsg(void)
 {
     Clear();
 
-    // if (DEBUG_MODE == true) {
-    //     Disp.drawUTF8(1, 0, "调试");
-    //     Disp.drawUTF8(1, 64 - 12, "调试");
-    //     Disp.drawUTF8(128 - 12 * 2, 0, "调试");
-    //     Disp.drawUTF8(128 - 12 * 2, 64 - 12, "调试");
-    // }
-    char buffer[50];
-
-
-    for (uint8_t i = 0; i < 5; i++)
-    {
-        Disp.setCursor(0, 12 * i + 1);
-
-        switch (i)
-        {
-            case 0:
-                sprintf(buffer, "[启动信息] 编译时间");
-                break;
-            case 1:
-                sprintf(buffer, "%s %s", __DATE__, __TIME__);
-                break;
-            case 2:
-                // sprintf(buffer, "MAC %s", ChipMAC_S);
-                break;
-            case 3:
-                sprintf(buffer, "CPU频率:%u MHZ", ESP.getCpuFreqMHz());
-                break;
-            case 4:
-                sprintf(buffer, "%s", ESP.getSdkVersion());
-                break;
-        }
-        Disp.print(buffer);
+    if (DEBUG_MODE == true) {
+        Disp.drawUTF8(1, 1, "调试");
+        // Disp.drawUTF8(1, 64 - 12, "调试");
+        // Disp.drawUTF8(128 - 12 * 2, 0, "调试");
+        // Disp.drawUTF8(128 - 12 * 2, 64 - 12, "调试");
     }
-    Display();
+    // char buffer[50];
+
+
+    // for (uint8_t i = 0; i < 5; i++)
+    // {
+    //     Disp.setCursor(0, 12 * i + 1);
+
+    //     switch (i)
+    //     {
+    //         case 0:
+    //             sprintf(buffer, "[启动信息] 编译时间");
+    //             break;
+    //         case 1:
+    //             sprintf(buffer, "%s %s", __DATE__, __TIME__);
+    //             break;
+    //         case 2:
+    //             // sprintf(buffer, "MAC %s", ChipMAC_S);
+    //             break;
+    //         case 3:
+    //             sprintf(buffer, "CPU频率:%u MHZ", ESP.getCpuFreqMHz());
+    //             break;
+    //         case 4:
+    //             sprintf(buffer, "%s", ESP.getSdkVersion());
+    //             break;
+    //     }
+    //     Disp.print(buffer);
+    // }
+    // Display();
 
     Display();
-    delay(300);
 }
 
 void Clear(void)
